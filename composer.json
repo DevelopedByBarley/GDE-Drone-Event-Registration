@@ -1,0 +1,27 @@
+{
+    "name": "barley/php-mvc",
+    "description": "My PHP MVC model",
+    "config": {
+        "platform": {
+            "php": "7.4.1"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Barley\\PhpMvc\\": "src/",
+            "App\\": "./app"
+        }
+    },
+    "authors": [
+        {
+            "name": "Barley"
+        }
+    ],
+    "require": {
+        "nikic/fast-route": "^1.3",
+        "vlucas/phpdotenv": "^5.6",
+        "phpmailer/phpmailer": "^6.9",
+        "phpoffice/phpspreadsheet": "1.22",
+        "firebase/php-jwt": "^6.10"
+    }
+}

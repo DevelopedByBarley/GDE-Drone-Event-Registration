@@ -1,0 +1,50 @@
+#alert-modal {
+  animation-name: alert;
+  animation-duration: 6s;
+  animation-timing-function: ease-in-out;
+  position: fixed;
+  bottom: 10%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  z-index: 120;
+  width: 90%;
+  height: 70%;
+
+  @media (min-width: 1200px) {
+    bottom: 0;
+    width: 700px;
+    height: 300px;
+  }
+}
+
+@keyframes alert {
+  0% {
+
+    transform: translateY(150%) translateX(-50%);
+    opacity: 0;
+  }
+
+  5% {
+    transform: translateY(0%) translateX(-50%);
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  97% {
+    transform: translateY(0%) translateX(-50%);
+  }
+
+  100% {
+    transform: translateY(150%) translateX(-50%);
+    opacity: 0;
+  }
+}
