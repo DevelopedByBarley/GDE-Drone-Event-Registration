@@ -18,6 +18,82 @@ class UserController extends Controller
   }
 
 
+
+  public function store()
+  {
+    session_start();
+    $this->CSRFToken->check();
+
+    $instructor = isset($_POST['is_instructor']) ? (bool)$_POST['is_instructor'] : null;
+
+    $attachment = isset($_FILES['attachment']) ? $_FILES['attachment'] : null;
+
+
+
+    $validators  = [
+      'first_name' => ['validators' => ['required' => true, 'minLength' => 3, 'maxLength' => 100]],
+      'last_name' => ['validators' => ['required' => true, 'minLength' => 3, 'maxLength' => 100]],
+      'company' => ['validators' => ['required' => true, 'minLength' => 3, 'maxLength' => 500]],
+      'org_unit' => ['validators' => ['required' => true, 'minLength' => 3, 'maxLength' => 200]],
+      'post' => ['validators' => ['required' => true, 'minLength' => 3, 'maxLength' => 200]],
+      'country' => ['validators' => ['required' => true, 'minLength' => 3, 'maxLength' => 200]],
+      'post_code' => ['validators' => ['required' => true, 'minLength' => 3, 'maxLength' => 10]],
+      'city' => ['validators' => ['required' => true, 'minLength' => 3, 'maxLength' => 100]],
+      'street_and_num' => ['validators' => ['required' => true, 'minLength' => 3, 'maxLength' => 100]],
+      'email' => ['validators' => ['required' => true, 'minLength' => 7, 'maxLength' => 30, 'email' => true]],
+    ];
+
+
+
+    // Csak akkor adjuk hozzá a 'is_instructor' validációt, ha jelen van az inputban
+    if ($instructor && pathinfo($_SERVER['HTTP_REFERER'])["basename"] === "instructor") {
+      $validators['authors'] = ['validators' => ['required' => true, 'minLength' => 5, 'maxLength' => 1000]];
+      $validators['conf_title'] = ['validators' => ['required' => true, 'minLength' => 5, 'maxLength' => 200]];
+      $validators['conf_lang'] = ['validators' => ['required' => true, 'minLength' => 5, 'maxLength' => 100]];
+      $validators['conf_theme'] = ['validators' => ['required' => true]];
+      $_POST['is_instructor'] = $instructor;
+
+      // --------- Make attach required if we need!
+      /* if (!$attachment) {
+        $this->Alert->set('Csatolmány feltöltése kötelező!', 'danger', $_SERVER['HTTP_REFERER'], null);
+      } */
+    }
+
+
+    $errors = $this->Validator->validate($validators);
+    $user_exist = $this->Model->selectByRecord('users', 'email', filter_var($_POST['email'], FILTER_SANITIZE_EMAIL), PDO::PARAM_STR);
+
+    if ($user_exist) {
+      $errors['email'] = [$_COOKIE['lang'] === "hu" ? "Ezekkel az adatokkal már regisztráltak, kérjük próbálkozzon másik e-mail címmel" : "This email address is already registered, please try another email address."];
+    }
+
+
+    if (!empty($errors)) {
+      $_SESSION['errors'] = $errors;
+      $_SESSION['prev'] = $_POST;
+      $this->Alert->set("Regisztráció sikertelen, kérjük próbálja meg más adatokkal!", 'danger', $_SERVER['HTTP_REFERER'], "Registration unsuccessful, please try with different data!");
+    }
+
+    if ($attachment) {
+      $attachment = $this->FileSaver->saver($_FILES['attachment'], 'uploads', null, null);
+    }
+
+
+    $isSuccess = $this->User->storeUser($attachment, $_POST);
+
+    if (!$isSuccess) {
+      $this->Alert->set("Regisztráció sikertelen, kérjük próbálja meg más adatokkal!", 'danger', $_SERVER['HTTP_REFERER'], "Registration unsuccessful, please try with different data!");
+      $_SESSION['prev'] = $_POST;
+    }
+
+    if (isset($_SESSION['errors'])) unset($_SESSION['errors']);
+    if (isset($_SESSION['prev'])) unset($_SESSION['prev']);
+    $this->Alert->set('Regisztráció sikeres!', 'success', $_SERVER['HTTP_REFERER'], "Registration successful!");
+  }
+
+
+
+  /* 
   public function index()
   {
     $userId = $this->Auth->checkUserIsLoggedInOrRedirect('userId', '/user/login');
@@ -71,73 +147,8 @@ class UserController extends Controller
       ])
     ]);
   }
+ */
 
-  public function store()
-  {
-    session_start();
-    // $this->CSRFToken->check();
-
-    $instructor = (bool)$_POST['is_instructor'] ?? false;
-    $attachment = isset($_FILES['attachment']) ? $_FILES['attachment'] : null;
-
-
-    $validators  = [
-      'name' => ['validators' => ['required' => true, 'split' => true, 'minLength' => 5, 'maxLength' => 50]],
-      'company' => ['validators' => ['required' => true, 'minLength' => 5, 'maxLength' => 50]],
-      'email' => ['validators' => ['required' => true, 'minLength' => 7, 'maxLength' => 30, 'email' => true]],
-      'phone' => ['validators' => ['required' => true, 'phone' => true]],
-    ];
-
-
-
-    // Csak akkor adjuk hozzá a 'is_instructor' validációt, ha jelen van az inputban
-    if ($instructor && pathinfo($_SERVER['HTTP_REFERER'])["basename"] === "instructor") {
-      $validators['conf_theme'] = ['validators' => ['required' => true, 'minLength' => 5, 'maxLength' => 50]];
-      $_POST['is_instructor'] = $instructor;
-      
-      // --------- Make attach required if we need!
-
-      /* if (!$attachment) {
-        $this->Alert->set('Csatolmány feltöltése kötelező!', 'danger', $_SERVER['HTTP_REFERER'], null);
-      } */
-    }
-
-
-
-    $errors = $this->Validator->validate($validators);
-
-    $user_exist = $this->Model->selectByRecord('users', 'email', filter_var($_POST['email'], FILTER_SANITIZE_EMAIL), PDO::PARAM_STR);
-
-    if ($user_exist) {
-      $errors['email'] = [
-        "Ezekkel az adatokkal már regisztráltak, kérjük próbálkozzon másik e-mail címmel"
-      ];
-    }
-
-
-    if (!empty($errors)) {
-      $_SESSION['errors'] = $errors;
-      $_SESSION['prev'] = $_POST;
-      $this->Alert->set('Regisztráció sikertelen, kérjük próbálja meg más adatokkal!', 'danger', $_SERVER['HTTP_REFERER'], null);
-    }
-
-    if ($attachment) {
-      $attachment = $this->FileSaver->saver($_FILES['attachment'], 'uploads', null, null);
-    }
-
-
-
-    $isSuccess = $this->User->storeUser($attachment, $_POST);
-
-    if (!$isSuccess) {
-      $this->Alert->set('Regisztráció sikertelen, próbálja meg más adatokkal!', 'danger', $_SERVER['HTTP_REFERER'], null);
-      $_SESSION['prev'] = $_POST;
-    }
-
-    if (isset($_SESSION['errors'])) unset($_SESSION['errors']);
-    if (isset($_SESSION['prev'])) unset($_SESSION['prev']);
-    $this->Alert->set('Regisztráció sikeres!', 'success', $_SERVER['HTTP_REFERER'], null);
-  }
 
 
 

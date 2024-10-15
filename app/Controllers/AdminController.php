@@ -26,17 +26,14 @@ class AdminController extends Controller
   {
     $this->Auth::checkUserIsLoggedInOrRedirect('adminId', '/admin');
     $users = $this->Model->selectAllByRecord('users', 'is_instructor', 1, PDO::PARAM_BOOL);
-    $headers = [
-      "Elsődleges",
-      "Név",
-      "Cég",
-      "Email",
-      "Telefon",
-      "Konferencia téma",
-      "Melléklet",
-      "Előadó",
-      "Létrehozva"
-    ];
+
+    // Cut lunch for instructors
+    foreach ($users as $index => $user) {
+      unset($users[$index]["lunch"]);
+    };
+    
+
+    $headers = ["Id", "Előtag", "Vezetéknév", "Keresztnév", "Intézmény", "Szervezeti egység", "Beosztás", "Ország", "Irányítószám", "Helyiség", "Utca/házszám", "Email cím", "Előadók", "Konf címe", "Konf nyelve", "Konf témája", "Csatolmány", "Komment", "Előadó", "Létrehozva",];
 
     if (count($users) > 0) {
       $this->XLSX->write($users, $headers);
@@ -50,27 +47,30 @@ class AdminController extends Controller
     $this->Auth::checkUserIsLoggedInOrRedirect('adminId', '/admin');
     $users = $this->Model->selectAllByRecord('users', 'is_instructor', 0, PDO::PARAM_BOOL);
 
+    if (empty($users)) die('Egyetlen rekord sincs még a táblában, ezért nem exportálható.');
+
 
     $filteredUsers = array_map(function ($user) {
       return [
-        'id' => $user['id'],
-        'name' => $user['name'],
-        'email' => $user['email'],
-        'company' => $user['company'],
-        'phone' => $user['phone'],
-        // Itt bővítheted a kiválasztott mezőket, ha szükséges
+        'id' => $user['id'],                         // Id
+        'prefix' => $user['prefix'],                 // Prefix (Előtag)
+        'last_name' => $user['last_name'],           // Last Name (Vezetéknév)
+        'first_name' => $user['first_name'],         // First Name (Keresztnév)
+        'company' => $user['company'],               // Company (Intézmény)
+        'org_unit' => $user['org_unit'],             // Organizational Unit (Szervezeti egység)
+        'post' => $user['post'],                     // Post (Beosztás)
+        'country' => $user['country'],               // Country (Ország)
+        'post_code' => $user['post_code'],           // Postal Code (Irányítószám)
+        'city' => $user['city'],                     // City (Helyiség)
+        'street_and_num' => $user['street_and_num'], // Street and Number (Utca/házszám)
+        'email' => $user['email'],                   // Email Address (Email cím)
+        'lunch' => $user['lunch'],                   // Lunch (Ebéd)
+        'comment' => $user['comment'],               // Comment (Megjegyzés)
+        'created_at' => $user['created_at'],         // Created (Létrehozva)
       ];
     }, $users);
 
-
-    $headers = [
-      "Elsődleges",
-      "Név",
-      "Cég",
-      "Email",
-      "Telefon",
-      "Létrehozva"
-    ];
+    $headers = ["Id", "Előtag", "Vezetéknév", "Keresztnév", "Intézmény", "Szervezeti egység", "Beosztás", "Ország", "Irányítószám", "Helyiség", "Utca/házszám", "Email cím", "Ebéd", "Comment", "Létrehozva",];
 
     if (count($filteredUsers) > 0) {
       $this->XLSX->write($filteredUsers, $headers);

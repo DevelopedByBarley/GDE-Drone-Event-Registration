@@ -14,7 +14,7 @@ class Toast
 
     $lang = isset($_COOKIE["lang"]) ? $_COOKIE["lang"] : null;
 
-    if ($lang === "Hu") {
+    if ($lang === "hu") {
       $_SESSION["toast"] = [
         "message" => $message,
         "bg" => $bg,
@@ -22,7 +22,7 @@ class Toast
         "time" => 'most',
         "expires" => time() + 2,
       ];
-    } else if ($lang === "En") {
+    } else if ($lang === "en") {
       $_SESSION["toast"] = [
         "message" => $messageInEng,
         "bg" => $bg,

@@ -9,6 +9,8 @@ $title = isset($params['title']) ? '- ' . $params['title'] : '';
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="/public/assets/favicon-32x32.png">
+
   <link rel="stylesheet" href="/public/bootstrap/css/bootstrap.css" />
   <link rel="stylesheet" href="/public/css/index.css?v=<?= time() ?>">
   <script src="/public/node_modules/axios/dist/axios.min.js"></script>

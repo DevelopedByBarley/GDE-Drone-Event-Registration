@@ -5,7 +5,7 @@ namespace App\Helpers;
 use App\Models\Model;
 
 
- /*  
+/*  
   
  HOW TO USE?
  
@@ -173,51 +173,74 @@ class Validator
     return $password === $confirmPassword;
   }
 
+
+
+  public function allowedCharacters($value)
+  {
+    // Engedélyezett karakterek: A-Z, a-z, 0-9, szóköz, -, &, ékezetes karakterek stb.
+    return preg_match('/^[A-Za-z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ\-&\s]+$/u', $value);
+  }
+
   // Validátor hibaüzenetek frissítése
   public function errorMessages($validator, $field = '', $param = '')
   {
+    $lang = $_COOKIE['lang'] ?? null;
+
     $messages = [
       'required' => [
-        'Hu' => 'Kitöltés kötelező!',
+        'hu' => 'Kitöltés kötelező!',
+        'en' => 'This field is required!',
       ],
       'minLength' => [
-        'Hu' => "A mezőnek legalább {$param} karakter hosszúnak kell lennie.",
+        'hu' => "A mezőnek legalább {$param} karakter hosszúnak kell lennie.",
+        'en' => "The field must be at least {$param} characters long.",
       ],
       'maxLength' => [
-        'Hu' => "A mező nem lehet hosszabb, mint {$param} karakter.",
+        'hu' => "A mező nem lehet hosszabb, mint {$param} karakter.",
+        'en' => "The field cannot be longer than {$param} characters.",
       ],
       'phone' => [
-        'Hu' => "A telefonszám formátuma helytelen.",
+        'hu' => "A telefonszám formátuma helytelen.",
+        'en' => "The phone number format is incorrect.",
       ],
       'email' => [
-        'Hu' => "Az e-mail cím formátuma helytelen.",
+        'hu' => "Az e-mail cím formátuma helytelen.",
+        'en' => "The email address format is incorrect.",
       ],
       'noSpaces' => [
-        'Hu' => 'A mező értéke nem tartalmazhat szóközt!',
+        'hu' => 'A mező értéke nem tartalmazhat szóközt!',
+        'en' => 'The field value cannot contain spaces!',
       ],
       'num' => [
-        'Hu' => 'A mező értéke csak szám lehet!',
+        'hu' => 'A mező értéke csak szám lehet!',
+        'en' => 'The field value can only be a number!',
       ],
       'hasNum' => [
-        'Hu' => 'A mezőnek tartalmaznia kell legalább egy számot!',
+        'hu' => 'A mezőnek tartalmaznia kell legalább egy számot!',
+        'en' => 'The field must contain at least one number!',
       ],
       'hasUppercase' => [
-        'Hu' => 'A mezőnek tartalmaznia kell legalább egy nagybetűt!',
+        'hu' => 'A mezőnek tartalmaznia kell legalább egy nagybetűt!',
+        'en' => 'The field must contain at least one uppercase letter!',
       ],
       'split' => [
-        'Hu' => 'A mezőnek minimum 2 szóból kell állnia.',
+        'hu' => 'A mezőnek minimum 2 szóból kell állnia.',
+        'en' => 'The field must consist of at least 2 words.',
       ],
       'password' => [
-        'Hu' => 'A jelszónak tartalmaznia kell legalább egy nagybetűt, egy kisbetűt, egy számot és egy speciális karaktert, valamint legalább 8 karakter hosszúnak kell lennie!',
+        'hu' => 'A jelszónak tartalmaznia kell legalább egy nagybetűt, egy kisbetűt, egy számot és egy speciális karaktert, valamint legalább 8 karakter hosszúnak kell lennie!',
+        'en' => 'The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character, and it must be at least 8 characters long!',
       ],
       'comparePw' => [
-        'Hu' => 'A 2 jelszó nem egyezik meg!',
+        'hu' => 'A 2 jelszó nem egyezik meg!',
+        'en' => 'The two passwords do not match!',
+      ],
+      'allowedCharacters' => [
+        'hu' => 'A mező csak megengedett karaktereket tartalmazhat (betűk, számok, szóköz, -, &).',
+        'en' => 'The field can only contain allowed characters (letters, numbers, space, -, &).',
       ],
     ];
 
-    return $messages[$validator]['Hu'];
+    return $messages[$validator][$lang];
   }
 }
-
-
-

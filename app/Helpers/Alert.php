@@ -14,13 +14,13 @@ class Alert
 
     $lang = isset($_COOKIE["lang"]) ? $_COOKIE["lang"] : null;
 
-    if ($lang === "Hu") {
+    if ($lang === "hu") {
       $_SESSION["alert"] = [
         "message" => $message,
         "bg" => $bg,
         "expires" => time() + 2
       ];
-    } else if ($lang === "En") {
+    } else if ($lang === "en") {
       $_SESSION["alert"] = [
         "message" => $messageInEng,
         "bg" => $bg,

@@ -2,10 +2,10 @@
 $csrf = $params['csrf'] ?? null;
 $prev = $params['prev'] ?? null;
 $errors = $params['errors'] ?? null;
-
+$lang = $_COOKIE['lang'] ?? null;
 ?>
 
-<div class="container-fluid bg-secondary-dark bg-secondary-dark dark-bg-slate-100 py-5 mt-10">
+<div class="container-fluid bg-secondary-dark bg-secondary-dark dark-bg-slate-100 py-0 py-xl-5 mt-8">
   <div class="container" id="registration">
     <div class="row">
       <div class="col col-lg-8 mx-auto">
@@ -13,25 +13,54 @@ $errors = $params['errors'] ?? null;
 
           <?php $csrf->generate() ?>
 
-          <div class="row ">
+          <div class="row">
             <div class="col-12 my-4">
               <div class="alert alert-info fw-bold py-2 d-flex align-items-center text-2xl">
-                Résztvevői regisztráció
+                <?= REGISTRATION['guest'][$lang] ?>
               </div>
             </div>
 
-            <div class="col-12 col-lg-6 mb-4">
-              <label class="form-label" for="name">Név</label>
-              <input type="text" id="name" name="name" placeholder="Teljes név" class="form-control dark-bg-secondary-dark" required value="<?php echo isset($prev) ? $prev['name'] : '' ?>" validators='{
-                "name": "name",
-                "split": true,
-                "required": true,
-                "minLength": 5,
-                "maxLength": 50
-              }' />
-              <?php if (!empty($errors['name'])): ?>
+            <!-- Prefix -->
+            <div class="col-12 col-lg-2 mb-4">
+              <label class="form-label" for="prefix"> <?= REGISTRATION['prefix'][$lang] ?></label>
+              <input type="text" id="prefix" name="prefix" placeholder="<?= REGISTRATION['prefix'][$lang] ?>" class="form-control dark-bg-secondary-dark" value="<?php echo isset($prev) ? $prev['prefix'] : '' ?>" maxlength="30" />
+              <?php if (!empty($errors['prefix'])): ?>
                 <div class="alert alert-danger p-1" role="alert">
-                  <?php foreach ($errors['name'] as $error): ?>
+                  <?php foreach ($errors['prefix'] as $error): ?>
+                    <p class="m-0"><?= $error ?></p>
+                  <?php endforeach ?>
+                </div>
+              <?php endif ?>
+            </div>
+
+            <!-- First Name -->
+            <div class="col-12 col-lg-5 mb-4">
+              <label class="form-label" for="first_name"> <?= REGISTRATION['first_name'][$lang] ?></label>
+              <input type="text" id="first_name" name="first_name" placeholder="<?= REGISTRATION['first_name'][$lang] ?>" class="form-control dark-bg-secondary-dark" value="<?php echo isset($prev) ? $prev['first_name'] : '' ?>" maxlength="100" required validators='{
+                  "name": "first_name",
+                  "required": true,
+                  "minLength": 3,
+                  "maxLength": 100}' />
+              <?php if (!empty($errors['first_name'])): ?>
+                <div class="alert alert-danger p-1" role="alert">
+                  <?php foreach ($errors['first_name'] as $error): ?>
+                    <p class="m-0"><?= $error ?></p>
+                  <?php endforeach ?>
+                </div>
+              <?php endif ?>
+            </div>
+
+            <!-- Last Name -->
+            <div class="col-12 col-lg-5 mb-4">
+              <label class="form-label" for="last_name"><?= REGISTRATION['last_name'][$lang] ?></label>
+              <input type="text" id="last_name" name="last_name" placeholder="<?= REGISTRATION['last_name'][$lang] ?>" class="form-control dark-bg-secondary-dark" value="<?php echo isset($prev) ? $prev['last_name'] : '' ?>" maxlength="100" required validators='{
+                  "name": "last_name",
+                  "required": true,
+                  "minLength": 3,
+                  "maxLength": 100}' />
+              <?php if (!empty($errors['last_name'])): ?>
+                <div class="alert alert-danger p-1" role="alert">
+                  <?php foreach ($errors['last_name'] as $error): ?>
                     <p class="m-0"><?= $error ?></p>
                   <?php endforeach ?>
                 </div>
@@ -39,14 +68,14 @@ $errors = $params['errors'] ?? null;
             </div>
 
             <!-- Company -->
-            <div class="col-12 col-lg-6 mb-4">
-              <label class="form-label " for="company">Cég / Intézmény neve</label>
-              <input type="text" id="company" name="company" placeholder="Cég / Autós iskola pontos neve" class="form-control dark-bg-secondary-dark" value="<?php echo isset($prev) ? $prev['company'] : '' ?>" validators='{
-             "name": "company",
-             "required": true,
-             "minLength": 5,
-             "maxLength": 100
-         }' required />
+            <div class="col-12 mb-4">
+              <label class="form-label" for="company"><?= REGISTRATION['institution'][$lang] ?></label>
+              <input type="text" id="company" name="company" placeholder="<?= REGISTRATION['institution'][$lang] ?>" class="form-control dark-bg-secondary-dark" value="<?php echo isset($prev) ? $prev['company'] : '' ?>" maxlength="500" required validators='{
+                  "name": "company",
+                  "required": true,
+                  "minLength": 3,
+                  "maxLength": 500}' />
+
               <?php if (!empty($errors['company'])): ?>
                 <div class="alert alert-danger p-1" role="alert">
                   <?php foreach ($errors['company'] as $error): ?>
@@ -55,21 +84,120 @@ $errors = $params['errors'] ?? null;
                 </div>
               <?php endif ?>
             </div>
-          </div>
 
+            <!-- Organization Unit -->
+            <div class="col-12 col-lg-6 mb-4">
+              <label class="form-label" for="org_unit"><?= REGISTRATION['organizational_unit'][$lang] ?></label>
+              <input type="text" id="org_unit" name="org_unit" placeholder="<?= REGISTRATION['organizational_unit'][$lang] ?>" class="form-control dark-bg-secondary-dark" value="<?php echo isset($prev) ? $prev['org_unit'] : '' ?>" maxlength="200" required validators='{
+                  "name": "org_unit",
+                  "required": true,
+                  "minLength": 3,
+                  "maxLength": 200}' />
+              <?php if (!empty($errors['org_unit'])): ?>
+                <div class="alert alert-danger p-1" role="alert">
+                  <?php foreach ($errors['org_unit'] as $error): ?>
+                    <p class="m-0"><?= $error ?></p>
+                  <?php endforeach ?>
+                </div>
+              <?php endif ?>
+            </div>
 
+            <!-- Post -->
+            <div class="col-12 col-lg-6 mb-4">
+              <label class="form-label" for="post"><?= REGISTRATION['post'][$lang] ?></label>
+              <input type="text" id="post" name="post" placeholder="<?= REGISTRATION['post'][$lang] ?>" class="form-control dark-bg-secondary-dark" value="<?php echo isset($prev) ? $prev['post'] : '' ?>" maxlength="200" required validators='{
+                  "name": "post",
+                  "required": true,
+                  "minLength": 3,
+                  "maxLength": 200}' />
+              <?php if (!empty($errors['post'])): ?>
+                <div class="alert alert-danger p-1" role="alert">
+                  <?php foreach ($errors['post'] as $error): ?>
+                    <p class="m-0"><?= $error ?></p>
+                  <?php endforeach ?>
+                </div>
+              <?php endif ?>
+            </div>
 
-          <!-- Email -->
-          <div class="row">
+            <!-- Country -->
+            <div class="col-12 col-lg-4 mb-4">
+              <label class="form-label" for="country"><?= REGISTRATION['country'][$lang] ?></label>
+              <input type="text" id="country" name="country" placeholder="<?= REGISTRATION['country'][$lang] ?>" class="form-control dark-bg-secondary-dark" value="<?php echo isset($prev) ? $prev['country'] : '' ?>" maxlength="300" required validators='{
+                  "name": "country",
+                  "required": true,
+                  "minLength": 3,
+                  "maxLength": 200}' />
+              <?php if (!empty($errors['country'])): ?>
+                <div class="alert alert-danger p-1" role="alert">
+                  <?php foreach ($errors['country'] as $error): ?>
+                    <p class="m-0"><?= $error ?></p>
+                  <?php endforeach ?>
+                </div>
+              <?php endif ?>
+            </div>
+
+            <!-- Post Code -->
+            <div class="col-12 col-lg-4 mb-4">
+              <label class="form-label" for="post_code"><?= REGISTRATION['post_code'][$lang] ?></label>
+              <input type="text" id="post_code" name="post_code" placeholder="<?= REGISTRATION['post_code'][$lang] ?>" class="form-control dark-bg-secondary-dark" value="<?php echo isset($prev) ? $prev['post_code'] : '' ?>" maxlength="50" required validators='{
+                  "name": "post_code",
+                  "required": true,
+                  "minLength": 3,
+                  "maxLength": 10}' />
+
+              <?php if (!empty($errors['post_code'])): ?>
+                <div class="alert alert-danger p-1" role="alert">
+                  <?php foreach ($errors['post_code'] as $error): ?>
+                    <p class="m-0"><?= $error ?></p>
+                  <?php endforeach ?>
+                </div>
+              <?php endif ?>
+            </div>
+
+            <!-- City -->
+            <div class="col-12 col-lg-4 mb-4">
+              <label class="form-label" for="city"><?= REGISTRATION['city'][$lang] ?></label>
+              <input type="text" id="city" name="city" placeholder="<?= REGISTRATION['city'][$lang] ?>" class="form-control dark-bg-secondary-dark" value="<?php echo isset($prev) ? $prev['city'] : '' ?>" maxlength="300" required validators='{
+                  "name": "city",
+                  "required": true,
+                  "minLength": 3,
+                  "maxLength": 100}' />
+
+              <?php if (!empty($errors['city'])): ?>
+                <div class="alert alert-danger p-1" role="alert">
+                  <?php foreach ($errors['city'] as $error): ?>
+                    <p class="m-0"><?= $error ?></p>
+                  <?php endforeach ?>
+                </div>
+              <?php endif ?>
+            </div>
+
+            <!-- Street and Number -->
             <div class="col-12  mb-4">
-              <label class="form-label" for="email">E-mail</label>
-              <input type="email" id="email" name="email" placeholder="E-mail cím" class="form-control dark-bg-secondary-dark" value="<?php echo isset($prev) ? $prev['email'] : '' ?>" validators='{
-             "name": "email",
-             "email": true,
-             "required": true,
-             "minLength": 5,
-             "maxLength": 50
-         }' required />
+              <label class="form-label" for="street_and_num"><?= REGISTRATION['street_address'][$lang] ?></label>
+              <input type="text" id="street_and_num" name="street_and_num" placeholder="<?= REGISTRATION['street_address'][$lang] ?>" class="form-control dark-bg-secondary-dark" value="<?php echo isset($prev) ? $prev['street_and_num'] : '' ?>" maxlength="500" required validators='{
+                  "name": "street_and_num",
+                  "required": true,
+                  "minLength": 3,
+                  "maxLength": 100}' />
+              <?php if (!empty($errors['street_and_num'])): ?>
+                <div class="alert alert-danger p-1" role="alert">
+                  <?php foreach ($errors['street_and_num'] as $error): ?>
+                    <p class="m-0"><?= $error ?></p>
+                  <?php endforeach ?>
+                </div>
+              <?php endif ?>
+            </div>
+
+            <!-- Email -->
+            <div class="col-12 mb-4">
+              <label class="form-label" for="email"><?= REGISTRATION['email'][$lang] ?></label>
+              <input type="email" id="email" name="email" placeholder="<?= REGISTRATION['email'][$lang] ?>" class="form-control dark-bg-secondary-dark" value="<?php echo isset($prev) ? $prev['email'] : '' ?>" maxlength="150" required validators='{
+                  "name": "email",
+                  "required": true,
+                  "email": true,
+                  "minLength": 12,
+                  "maxLength": 50}' />
               <?php if (!empty($errors['email'])): ?>
                 <div class="alert alert-danger p-1" role="alert">
                   <?php foreach ($errors['email'] as $error): ?>
@@ -79,53 +207,58 @@ $errors = $params['errors'] ?? null;
               <?php endif ?>
             </div>
 
-            <!-- Phone -->
-            <div class="col-12  mb-4">
-              <label class="form-label " for="phone">Telefonszám</label>
-              <input type="text" id="phone" name="phone" class="form-control dark-bg-secondary-dark" placeholder="Telefonszám pl. +36-20-123-4567" value="<?php echo isset($prev) ? $prev['phone'] : '' ?>" validators='{
-             "name": "phone",
-             "required": true,
-             "phone": true,
-             "minLength": 9,
-             "maxLength": 17
-         }' required />
-              <?php if (!empty($errors['phone'])): ?>
-                <div class="alert alert-danger p-1" role="alert">
-                  <?php foreach ($errors['phone'] as $error): ?>
-                    <p class="m-0"><?= $error ?></p>
-                  <?php endforeach ?>
-                </div>
-              <?php endif ?>
-            </div>
-          </div>
-
-
-
-
-
-          <!-- Checkbox -->
-          <div class="row">
             <div class="col-12 mb-4">
-              <div class="form-check mb-2">
-                <input class="form-check-input me-2" type="checkbox" value="" id="form6Example8" required />
-                <label class="form-check-label" for="form6Example8"> Az <a href="#" class="main-red">adatkezelési tájékoztatót</a> elolvastam, elfogadom </label>
-              </div>
+              <label class="form-label" for="comment"><?= REGISTRATION['comment'][$lang] ?></label>
+              <textarea id="comment" name="comment" class="form-control dark-bg-secondary-dark" rows="5" placeholder="<?= REGISTRATION['comment'][$lang] ?>"></textarea>
             </div>
-            <!--   <div class="col-12 mb-4">
-              <div class="form-check mb-4">
-                <input class="form-check-input me-2" type="checkbox" value="" id="form6Example8" required />
-                <label class="form-check-label " for="form6Example8">
-                  Hozzájárulok, hogy a rendezvényen kép- és videófelvétel készülhet rólam, melyet a szervezők marketing és kommunikációs célokra felhasználhatnak.
+
+
+
+            <div class="col-12 mb-4">
+              <label for="lunch"><?= REGISTRATION['lunch']['label'][$lang] ?></label>
+              <div class="form-check mt-4">
+                <input class="form-check-input me-2" type="radio" value="normal" name="lunch" id="form6Example8Normal" />
+                <label class="form-check-label" for="form6Example8Normal">
+                  <?= REGISTRATION['lunch']['normal'][$lang] ?>
                 </label>
               </div>
-            </div> -->
-          </div>
+              <div class="form-check">
+                <input class="form-check-input me-2" type="radio" value="vegetarian" name="lunch" id="form6Example8Vegetarian" />
+                <label class="form-check-label" for="form6Example8Vegetarian">
+                  <?= REGISTRATION['lunch']['vegetarian'][$lang] ?>
+                </label>
+              </div>
+            </div>
 
-          <!-- Submit button -->
-          <button type="submit" class="btn bg-blue hover-bg-blue-hover text-white btn-block mb-4">Regisztrácó</button>
+            <hr>
+
+
+
+            <div class="row">
+              <div class="col-12 mb-2">
+                <div class="form-check">
+                  <input class="form-check-input me-2" type="checkbox" value="" id="form6Example8" />
+                  <label class="form-check-label" for="form6Example8"> <?= REGISTRATION['accept_data'][$lang] ?></label>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input me-2" type="checkbox" value="" id="form6Example8" />
+                  <label class="form-check-label " for="form6Example8">
+                    <?= REGISTRATION['data_management'][$lang] ?>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Submit Button -->
+            <div class="mt-5">
+              <button type="submit" class="btn bg-blue hover-bg-blue-hover text-white btn-block mb-4"><?= WELCOME['reg']['title'][$lang] ?></button>
+            </div>
+          </div>
         </form>
       </div>
     </div>
-
   </div>
 </div>

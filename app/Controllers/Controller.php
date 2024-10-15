@@ -49,6 +49,8 @@ class Controller
   }
 
 
+  
+
   public function guestFormPage()
   {
     session_start();
@@ -84,6 +86,7 @@ class Controller
       $visitor->addVisitor();
     }
     session_start();
+
     echo $this->Render->write("public/Layout.php", [
       "meta_tags" => WELCOME_META_TAGS,
       "content" => $this->Render->write("public/pages/Welcome.php", [

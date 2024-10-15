@@ -13,18 +13,24 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 d-flex gap-2 justify-content-end">
           <li class="nav-item">
-            <a class="nav-link hover-bg-blue hover-text-slate-50 py-3 px-4 rounded" href="#info">Info</a>
+            <a class="nav-link hover-bg-blue hover-text-slate-50 py-3 px-4 rounded" href="<?= $_SERVER['REQUEST_URI'] !==  "/" ? '/#info' : '#info' ?>">Info</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link hover-bg-blue hover-text-slate-50 py-3 px-4 rounded" href="#program">Program</a>
+            <a class="nav-link hover-bg-blue hover-text-slate-50 py-3 px-4 rounded" href="<?= $_SERVER['REQUEST_URI'] !==  "/" ? '/#program' : '#program' ?>">Program</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link hover-bg-blue hover-text-slate-50 py-3 px-4 rounded" href="#registration">Regisztráció</a>
+            <a class="nav-link hover-bg-blue hover-text-slate-50 py-3 px-4 rounded" href="<?= $_SERVER['REQUEST_URI'] !==  "/" ? '/#registration' : '#registration' ?>"><?= WELCOME['reg']['title'][$_COOKIE['lang']] ?></a>
+          </li>
+          <li class="nav-item px-3 d-md-none">
+            <div class="bg-blue p-1 hover-bg-blue-hover rounded-circle transition text-white d-flex align-items-center justify-content-center" style="height: 35px; width: 35px;">
+              <a href="/lang/<?= $_COOKIE['lang'] === "hu" ? "en" : "hu" ?>">
+                <img src="/public/assets/images/icons/<?= $_COOKIE['lang'] ? $_COOKIE['lang'] . '_flag.jpg' : 'hu_flag.jpg' ?>" class="img-fluid" alt="">
+              </a>
           </li>
 
-          <li class="nav-item">
+          <!--     <li class="nav-item">
             <a class="nav-link hover-bg-blue hover-text-slate-50 py-3 px-4 rounded" href="#contact">Kapcsolat</a>
-          </li>
+          </li> -->
 
         </ul>
       </div>

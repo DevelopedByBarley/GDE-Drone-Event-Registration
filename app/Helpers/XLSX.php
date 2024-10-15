@@ -28,7 +28,7 @@ class XLSX
     // Beírjuk a fejléceket
     $columnIndex = 1;
     foreach ($headers as $header) {
-      $sheet->setCellValueByColumnAndRow($columnIndex, 1, $header);
+      $sheet->setCellValueByColumnAndRow($columnIndex, 1, html_entity_decode($header, ENT_QUOTES | ENT_HTML5, 'UTF-8'));
       $columnIndex++;
     }
 
@@ -38,7 +38,7 @@ class XLSX
       // A rekordon belüli mezők beírása
       $columnIndex = 1;
       foreach ($rowData as $value) {
-        $sheet->setCellValueByColumnAndRow($columnIndex, $rowIndex, $value);
+        $sheet->setCellValueByColumnAndRow($columnIndex, $rowIndex, html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8'));
         $columnIndex++;
       }
       $rowIndex++;
