@@ -26,7 +26,7 @@ class LanguageService
     // Biztonságos sütikezelés
     $cookie_name = "lang";
     $cookie_value = ($ret === "hu" || $ret === "en") ? $ret : "en"; // Csak engedélyezett értékek
-    setcookie($cookie_name, $cookie_value, $expiration_date, "/", "", false, false); // HttpOnly és Secure opciók
+    setcookie($cookie_name, $cookie_value, $expiration_date, "/", "", false, false);
     header("Location: " . $_SERVER['REQUEST_URI']);
     exit;
   }

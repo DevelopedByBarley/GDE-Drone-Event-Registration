@@ -22,7 +22,7 @@ class UserController extends Controller
   public function store()
   {
     session_start();
-    $this->CSRFToken->check();
+    //$this->CSRFToken->check();
 
     $instructor = isset($_POST['is_instructor']) ? (bool)$_POST['is_instructor'] : null;
 
@@ -47,9 +47,9 @@ class UserController extends Controller
 
     // Csak akkor adjuk hozzá a 'is_instructor' validációt, ha jelen van az inputban
     if ($instructor && pathinfo($_SERVER['HTTP_REFERER'])["basename"] === "instructor") {
-      $validators['authors'] = ['validators' => ['required' => true, 'minLength' => 5, 'maxLength' => 1000]];
-      $validators['conf_title'] = ['validators' => ['required' => true, 'minLength' => 5, 'maxLength' => 200]];
-      $validators['conf_lang'] = ['validators' => ['required' => true, 'minLength' => 5, 'maxLength' => 100]];
+      $validators['authors'] = ['validators' => ['required' => true, 'minLength' => 3, 'maxLength' => 1000]];
+      $validators['conf_title'] = ['validators' => ['required' => true, 'minLength' => 3, 'maxLength' => 200]];
+      $validators['conf_lang'] = ['validators' => ['required' => true, 'minLength' => 3, 'maxLength' => 100]];
       $validators['conf_theme'] = ['validators' => ['required' => true]];
       $_POST['is_instructor'] = $instructor;
 

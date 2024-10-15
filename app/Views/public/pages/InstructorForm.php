@@ -44,7 +44,7 @@ $lang = $_COOKIE['lang'] ?? null;
                   "name": "first_name",
                   "required": true,
                   "minLength": 3,
-                  "maxLength": 100}' />
+                  "maxLength": 100}' required />
               <?php if (!empty($errors['first_name'])): ?>
                 <div class="alert alert-danger p-1" role="alert">
                   <?php foreach ($errors['first_name'] as $error): ?>
@@ -61,7 +61,7 @@ $lang = $_COOKIE['lang'] ?? null;
                   "name": "last_name",
                   "required": true,
                   "minLength": 3,
-                  "maxLength": 100}' />
+                  "maxLength": 100}' required />
               <?php if (!empty($errors['last_name'])): ?>
                 <div class="alert alert-danger p-1" role="alert">
                   <?php foreach ($errors['last_name'] as $error): ?>
@@ -78,7 +78,7 @@ $lang = $_COOKIE['lang'] ?? null;
                   "name": "company",
                   "required": true,
                   "minLength": 3,
-                  "maxLength": 500}' />
+                  "maxLength": 500}' required />
 
               <?php if (!empty($errors['company'])): ?>
                 <div class="alert alert-danger p-1" role="alert">
@@ -96,7 +96,7 @@ $lang = $_COOKIE['lang'] ?? null;
                   "name": "org_unit",
                   "required": true,
                   "minLength": 3,
-                  "maxLength": 200}' />
+                  "maxLength": 200}' required />
               <?php if (!empty($errors['org_unit'])): ?>
                 <div class="alert alert-danger p-1" role="alert">
                   <?php foreach ($errors['org_unit'] as $error): ?>
@@ -113,7 +113,7 @@ $lang = $_COOKIE['lang'] ?? null;
                   "name": "post",
                   "required": true,
                   "minLength": 3,
-                  "maxLength": 200}' />
+                  "maxLength": 200}' required />
               <?php if (!empty($errors['post'])): ?>
                 <div class="alert alert-danger p-1" role="alert">
                   <?php foreach ($errors['post'] as $error): ?>
@@ -130,7 +130,7 @@ $lang = $_COOKIE['lang'] ?? null;
                   "name": "country",
                   "required": true,
                   "minLength": 3,
-                  "maxLength": 200}' />
+                  "maxLength": 200}' required />
               <?php if (!empty($errors['country'])): ?>
                 <div class="alert alert-danger p-1" role="alert">
                   <?php foreach ($errors['country'] as $error): ?>
@@ -147,7 +147,7 @@ $lang = $_COOKIE['lang'] ?? null;
                   "name": "post_code",
                   "required": true,
                   "minLength": 3,
-                  "maxLength": 10}' />
+                  "maxLength": 10}' required />
 
               <?php if (!empty($errors['post_code'])): ?>
                 <div class="alert alert-danger p-1" role="alert">
@@ -165,7 +165,7 @@ $lang = $_COOKIE['lang'] ?? null;
                   "name": "city",
                   "required": true,
                   "minLength": 3,
-                  "maxLength": 100}' />
+                  "maxLength": 100}' required />
 
               <?php if (!empty($errors['city'])): ?>
                 <div class="alert alert-danger p-1" role="alert">
@@ -183,7 +183,7 @@ $lang = $_COOKIE['lang'] ?? null;
                   "name": "street_and_num",
                   "required": true,
                   "minLength": 3,
-                  "maxLength": 100}' />
+                  "maxLength": 100}' required />
               <?php if (!empty($errors['street_and_num'])): ?>
                 <div class="alert alert-danger p-1" role="alert">
                   <?php foreach ($errors['street_and_num'] as $error): ?>
@@ -201,7 +201,7 @@ $lang = $_COOKIE['lang'] ?? null;
                   "required": true,
                   "email": true,
                   "minLength": 12,
-                  "maxLength": 50}' />
+                  "maxLength": 50}' required />
               <?php if (!empty($errors['email'])): ?>
                 <div class="alert alert-danger p-1" role="alert">
                   <?php foreach ($errors['email'] as $error): ?>
@@ -217,7 +217,12 @@ $lang = $_COOKIE['lang'] ?? null;
 
             <div class="col-12 mb-4">
               <label class="form-label" for="authors"><?= REGISTRATION['authors'][$lang] ?></label>
-              <input type="text" id="authors" name="authors" placeholder="<?= REGISTRATION['authors'][$lang] ?>" class="form-control dark-bg-secondary-dark" maxlength="1000" value="<?php echo isset($prev['authors']) ? $prev['authors'] : '' ?>">
+              <input type="text" id="authors" name="authors" placeholder="<?= REGISTRATION['authors'][$lang] ?>" class="form-control dark-bg-secondary-dark" maxlength="1000" value="<?php echo isset($prev['authors']) ? $prev['authors'] : '' ?>" validators='{
+                  "name": "authors",
+                  "required": true,
+                  "minLength": 3,
+                  "maxLength": 1000}'
+                required />
               <?php if (!empty($errors['authors'])): ?>
                 <div class="alert alert-danger p-1" role="alert">
                   <?php foreach ($errors['authors'] as $error): ?>
@@ -229,7 +234,12 @@ $lang = $_COOKIE['lang'] ?? null;
 
             <div class="col-12 mb-4">
               <label class="form-label" for="conf_title"><?= REGISTRATION['presentation_title'][$lang] ?></label>
-              <input type="text" id="conf_title" name="conf_title" placeholder="<?= REGISTRATION['presentation_title'][$lang] ?>" class="form-control dark-bg-secondary-dark" maxlength="100" value="<?php echo isset($prev['conf_title']) ? $prev['conf_title'] : '' ?>">
+              <input type="text" id="conf_title" name="conf_title" placeholder="<?= REGISTRATION['presentation_title'][$lang] ?>" class="form-control dark-bg-secondary-dark" maxlength="100" value="<?php echo isset($prev['conf_title']) ? $prev['conf_title'] : '' ?>" validators='{
+                  "name": "conf_title",
+                  "required": true,
+                  "minLength": 3,
+                  "maxLength": 200}'
+                required />
               <?php if (!empty($errors['conf_title'])): ?>
                 <div class="alert alert-danger p-1" role="alert">
                   <?php foreach ($errors['conf_title'] as $error): ?>
@@ -241,7 +251,12 @@ $lang = $_COOKIE['lang'] ?? null;
 
             <div class="col-12 mb-4">
               <label class="form-label" for="conf_lang"><?= REGISTRATION['presentation_language'][$lang] ?></label>
-              <input type="text" id="conf_lang" name="conf_lang" placeholder="<?= REGISTRATION['presentation_language'][$lang] ?>" class="form-control dark-bg-secondary-dark" maxlength="100" value="<?php echo isset($prev['conf_lang']) ? $prev['conf_lang'] : '' ?>">
+              <input type="text" id="conf_lang" name="conf_lang" placeholder="<?= REGISTRATION['presentation_language'][$lang] ?>" class="form-control dark-bg-secondary-dark" maxlength="100" value="<?php echo isset($prev['conf_lang']) ? $prev['conf_lang'] : '' ?>" validators='{
+                  "name": "conf_lang",
+                  "required": true,
+                  "minLength": 3,
+                  "maxLength": 100}'
+                required />
               <?php if (!empty($errors['conf_lang'])): ?>
                 <div class="alert alert-danger p-1" role="alert">
                   <?php foreach ($errors['conf_lang'] as $error): ?>
@@ -253,7 +268,7 @@ $lang = $_COOKIE['lang'] ?? null;
 
             <div class="col-12 mb-4">
               <label class="form-label" for="conf_theme"><?= REGISTRATION['suggested_topic'][$lang] ?></label>
-              <select id="conf_theme" name="conf_theme" class="form-control dark-bg-secondary-dark">
+              <select id="conf_theme" name="conf_theme" class="form-control dark-bg-secondary-dark" required>
                 <option value=""><?= REGISTRATION['suggested_topic'][$lang] ?></option>
                 <?php foreach (REGISTRATION['topics'][$lang] as $index => $topic): ?>
 
@@ -296,13 +311,13 @@ $lang = $_COOKIE['lang'] ?? null;
             <div class="row">
               <div class="col-12 mb-4">
                 <div class="form-check mb-2">
-                  <input class="form-check-input me-2" type="checkbox" value="" id="form6Example8" />
+                  <input class="form-check-input me-2" type="checkbox" value="" id="form6Example8" required />
                   <label class="form-check-label" for="form6Example8"> <?= REGISTRATION['accept_data'][$lang] ?></label>
                 </div>
               </div>
               <div class="col-12">
                 <div class="form-check">
-                  <input class="form-check-input me-2" type="checkbox" value="" id="form6Example8" />
+                  <input class="form-check-input me-2" type="checkbox" value="" id="form6Example8" required />
                   <label class="form-check-label " for="form6Example8">
                     <?= REGISTRATION['data_management'][$lang] ?>
                   </label>

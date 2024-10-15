@@ -43,3 +43,6 @@ define('PW_GENERATOR_PERM', 1);
 
 define('APP_NAME', 'PHP-MVC');
 define('APP_ADMIN_NAME', 'PHP-MVC-ADMIN');
+
+define('CSRF_SAFE_ORIGINS',  array('http://localhost:8080', 'https://dronkonferencia.gde.hu', 'https://www.dronkonferencia.gde.hu'));
+

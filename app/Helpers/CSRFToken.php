@@ -142,7 +142,7 @@ class CSRFToken
   private function isSafeOrigin()
   {
     // Az elfogadható eredetek listája
-    $safeOrigins = explode(',', $_SERVER['CSRF_APPLY_URL']);
+    $safeOrigins = CSRF_SAFE_ORIGINS;
 
     // Ellenőrizzük az Origin fejlécet
     if (isset($_SERVER['HTTP_ORIGIN'])) {

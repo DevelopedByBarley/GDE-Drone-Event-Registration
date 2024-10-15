@@ -54,8 +54,8 @@ class AdminController extends Controller
       return [
         'id' => $user['id'],                         // Id
         'prefix' => $user['prefix'],                 // Prefix (Előtag)
-        'last_name' => $user['last_name'],           // Last Name (Vezetéknév)
         'first_name' => $user['first_name'],         // First Name (Keresztnév)
+        'last_name' => $user['last_name'],           // Last Name (Vezetéknév)
         'company' => $user['company'],               // Company (Intézmény)
         'org_unit' => $user['org_unit'],             // Organizational Unit (Szervezeti egység)
         'post' => $user['post'],                     // Post (Beosztás)
